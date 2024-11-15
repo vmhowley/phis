@@ -1,12 +1,31 @@
-const express = require('express');
 const fs = require('node:fs');
+const serverless = require("serverless-http");
+const express = require('express');
 const cors = require('cors');
 const app = express();
+const router = express.Router();
+const nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'youremail@gmail.com',
+    pass: 'yourpassword'
+  }
+});
+
+var mailOptions = {
+  from: 'youremail@gmail.com',
+  to: 'myfriend@yahoo.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
 app.use(express.json());
 app.use(cors())
 // Endpoint to save username and password
 
-app.post('/api/users', async (req, res) => {
+router.post('/api/users', async (req, res) => {
   const { username, password } = req.body;
   console.log(req.body)
   // Validate input
@@ -43,3 +62,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+app.use("/.netlify/functions/app", router);
+module.exports.handler = serverless(app);

